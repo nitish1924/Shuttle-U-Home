@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Login</title>
 </head>
 <body class="body">
-<form name='registration' method="post" action="StudentController">
+<form name='login' method="post" action="StudentController">
 <div class="division" align="center">
 <fieldset class="fieldset">
 <legend align="top"> <font color="blue">Login</font></legend>
@@ -25,7 +25,7 @@
 <td>&nbsp;<input type="hidden" value="login" name="action"></td>
 <td><input type="Submit" value="Submit"></input></td>
 <td><input type="reset" value="Reset"/></td>
-<td><a href="Registartion.jsp">Register</a>
+<td><a href="Registration.jsp">Register</a>
 </tr>
 </table>
 </fieldset>

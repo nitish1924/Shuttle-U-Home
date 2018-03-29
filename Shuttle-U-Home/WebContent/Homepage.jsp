@@ -7,6 +7,14 @@
 <title>Insert title here</title>
 </head>
 <body>
-Welcome!Login successful! <%out.print(request.getAttribute("name")); %>
+<%
+String sname = (String) session.getAttribute("name");
+/*if (null == sname) {
+   request.setAttribute("Error", "Session has ended.  Please login.");
+   RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");
+   rd.forward(request, response);
+}*/
+%>
+Welcome!Login successful! <%out.print(sname); %>
 </body>
 </html>

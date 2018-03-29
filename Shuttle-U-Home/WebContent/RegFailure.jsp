@@ -8,7 +8,7 @@
 </head>
 <body>
 
-Registration failed please click <a href="Demo.jsp">here</a>
+Registration failed please click <a href="Registration.jsp">here</a>
 
 </body>
 </html>

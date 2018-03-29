@@ -39,7 +39,7 @@
 <td><input type="text" name="phone" id="phone" class="text"></input></td></tr>
 <tr>
 <td>&nbsp;<input type="hidden" value="addStudent" name="action"></td>
-<td><input type="Submit" value="Submit"></input></td>
+<td><input type="Submit" value="Submit" onclick="return Validations()"></input></td>
 <td><input type="reset" value="Reset"/></td>
 </tr>
 </table>

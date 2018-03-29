@@ -1,11 +1,14 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import bean.Student;
 import service.Shuttle;
@@ -38,6 +41,7 @@ public class StudentController extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action=request.getParameter("action");
+		HttpSession session=request.getSession();
 		if("addStudent".equals(action))
 		{
 			Student student= new Student();
@@ -70,14 +74,20 @@ public class StudentController extends HttpServlet {
 			Shuttle s=new Shuttle();
 			String email=request.getParameter("eid");
 			String pwd=request.getParameter("pwd");
-			String flag=s.login(email,pwd);
-			if(flag.equals("1234")) {
-				request.getRequestDispatcher("RegFailure.jsp").forward(request, response);
+			String name=s.login(email,pwd);
+			if(name.equals("1234")) {
+				System.out.println("authentication failed");
+				response.setContentType("text/html"); 
+				PrintWriter pw=response.getWriter();
+						pw.print("your email id or password is wrong");
+			     request.getRequestDispatcher("Login.jsp").include(request, response); 
 				
 			}
 			else {
-				request.setAttribute("name", flag);
-				request.getRequestDispatcher("Homepage.jsp").forward(request, response);
+				System.out.println("authentication success");
+				session.setAttribute("name",name);
+				response.setContentType("text/html");
+				request.getRequestDispatcher("Homepage.jsp").forward(request, response); 
 			}
 		}
 	}
