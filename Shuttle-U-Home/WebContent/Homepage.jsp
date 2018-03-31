@@ -9,12 +9,14 @@
 <body>
 <%
 String sname = (String) session.getAttribute("name");
-/*if (null == sname) {
+if (null == sname) {
    request.setAttribute("Error", "Session has ended.  Please login.");
    RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");
    rd.forward(request, response);
-}*/
+}
 %>
 Welcome!Login successful! <%out.print(sname); %>
+<a href="Homepage.jsp">Home</a>
+<a href="Logout.jsp">Log Out</a>
 </body>
 </html>

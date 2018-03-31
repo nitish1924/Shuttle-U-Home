@@ -8,5 +8,6 @@
 </head>
 <body>
 Registration Successful !!! khush hoja chutiye tera code chal gaya :P !!!!
+<a href="Login.jsp">login</a>
 </body>
 </html>

@@ -1,21 +1,17 @@
 package dao;
 
 
-import java.util.Arrays;
-import java.util.Iterator;
 
-import org.bson.BasicBSONObject;
 import org.bson.Document;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
+
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import static com.mongodb.client.model.Filters.eq;
 
 import bean.Student;
 
@@ -72,13 +68,41 @@ public class StudentDAO {
 				Document element=it.next();
 				sname=element.getString("name");
 				System.out.println(sname);
-				
-				
-				
-				
-				
-				
-				
+						
+			}
+			
+
+		}
+		catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return sname;
+	}
+	public void insertOTP(String otp, String email) {
+		MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
+		MongoDatabase dbs=mongoclient.getDatabase("shuttle");
+		MongoCollection<Document> collection = dbs.getCollection("student");
+		collection.updateOne(eq("emailId", email), new Document("$set", new Document("otp", otp)));
+		
+	}
+	public String loginOTP(String email,String otp) {
+		
+		String sname="1234";
+		try {
+			MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
+			MongoDatabase dbs=mongoclient.getDatabase("shuttle");
+			MongoCollection<Document> collection = dbs.getCollection("student");
+			BasicDBObject query=new BasicDBObject();
+			query.put("emailId",email);
+			query.put("otp",otp);
+			FindIterable<Document> cursor=collection.find(query);
+			MongoCursor<Document> it = cursor.iterator();
+			while(it.hasNext()) {
+				Document element=it.next();
+				sname=element.getString("name");
+				System.out.println(sname);
+						
 			}
 			
 

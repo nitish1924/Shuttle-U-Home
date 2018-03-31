@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bean.Student;
+import service.EmailOTP;
 import service.Shuttle;
 
 /**
@@ -79,14 +80,37 @@ public class StudentController extends HttpServlet {
 				System.out.println("authentication failed");
 				response.setContentType("text/html"); 
 				PrintWriter pw=response.getWriter();
-						pw.print("your email id or password is wrong");
+						pw.print("your email id or password is wrong.....try again");
 			     request.getRequestDispatcher("Login.jsp").include(request, response); 
 				
 			}
 			else {
-				System.out.println("authentication success");
+				System.out.println("text authentication success");
+				EmailOTP e= new EmailOTP();
+				e.createotp(email);
+				session.setAttribute("email",email);
+				
+				request.getRequestDispatcher("LoginOTP.jsp").forward(request, response); 
+			}
+		}
+		if("loginotp".equals(action)) {
+			Shuttle s = new Shuttle();
+			String email = (String)session.getAttribute("email");
+			String otp=request.getParameter("otp");
+			System.out.println("controller email"+email);
+			String name=s.loginOTP(email,otp);
+			if(name.equals("1234")) {
+				System.out.println("otp authentication failed");
+				response.setContentType("text/html"); 
+				PrintWriter pw=response.getWriter();
+						pw.print("your otp does not match.....try again");
+			     request.getRequestDispatcher("LoginOTP.jsp").include(request, response); 
+				
+			}
+			else {
+				System.out.println("otp authentication success");
+				session.setAttribute("email",email);
 				session.setAttribute("name",name);
-				response.setContentType("text/html");
 				request.getRequestDispatcher("Homepage.jsp").forward(request, response); 
 			}
 		}
