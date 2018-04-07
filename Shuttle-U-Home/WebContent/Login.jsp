@@ -27,6 +27,11 @@
 <td><input type="reset" value="Reset"/></td>
 <td><a href="Registration.jsp">Register</a>
 </tr>
+<tr>
+<td class="fonts">Identity:</td>
+<td><input type="radio" value="Student" id="Student" name="identity" class="text">Student
+<input type="radio" value="Employee" id="Employee" name="identity" class="text">Employee</td></tr>
+<tr>
 </table>
 </fieldset>
 </div>

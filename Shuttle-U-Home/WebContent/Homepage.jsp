@@ -4,9 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Homepage</title>
 </head>
 <body>
+<form name='view booking' method="post" action="StudentController">
 <%
 String sname = (String) session.getAttribute("name");
 if (null == sname) {
@@ -17,6 +18,9 @@ if (null == sname) {
 %>
 Welcome!Login successful! <%out.print(sname); %>
 <a href="Homepage.jsp">Home</a>
+<a href="Book.jsp">Book Shuttle</a> 
 <a href="Logout.jsp">Log Out</a>
+<input type="Submit" value="Submit">
+<input type="hidden" value="viewbooking" name="action">
 </body>
 </html>
