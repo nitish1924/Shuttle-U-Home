@@ -21,7 +21,8 @@ Welcome!Login successful! <%out.print(sname);%>
 <a href="DriverHome.jsp">Home</a>
 <a href="Logout.jsp">Log Out</a>
 <input type="Submit" value="Start Trip" >
-<input type="hidden" name="action" value="createlist">
+<input type="hidden" name="action" value="createlist"></div>
+
 </form>
 </body>
 </html>

@@ -3,6 +3,7 @@ package service;
 import java.util.ArrayList;
 
 import bean.Booking;
+import bean.Employee;
 import bean.Student;
 import dao.StudentDAO;
 
@@ -37,4 +38,14 @@ public ArrayList<Booking> viewbooklist(String email) {
 	StudentDAO studentDAO=new StudentDAO();
 	return studentDAO.viewbooklist(email);
 }
+public void cancel(String email) {
+	StudentDAO studentDAO=new StudentDAO();
+	studentDAO.cancel(email);
 }
+public int createEmployee(Employee emp) {
+	StudentDAO studentDAO=new StudentDAO();
+	return studentDAO. createEmployee(emp);
+}
+	
+}
+

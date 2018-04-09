@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>OTP</title>
+<script type="text/javascript" src="js/FormValidation.js"></script>
 </head>
 <body class="body">
 <form name='otp' method="post" action="StudentController">
@@ -19,7 +20,7 @@
 <tr>
 <tr>
 <td>&nbsp;<input type="hidden" value="loginotp" name="action"></td>
-<td><input type="Submit" value="Submit"></input></td>
+<td><input type="Submit" value="Submit" onclick="return otpValidate()"></input></td>
 <td><input type="reset" value="Reset"/></td>
 
 </tr>

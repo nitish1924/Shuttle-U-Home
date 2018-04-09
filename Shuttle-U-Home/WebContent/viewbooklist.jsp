@@ -10,7 +10,7 @@
 <body class="body">
 <%@ page import="bean.Booking" %>
 <%@ page import="java.util.ArrayList"%>
-<form name='viewbooklist' method="post" action="">
+<form name='viewbooklist' method="post" action="StudentController">
 <%
 String sname = (String) session.getAttribute("name");
 if (null == sname) {
@@ -19,6 +19,9 @@ if (null == sname) {
    rd.forward(request, response);
 }
 %>
+<a href="Homepage.jsp">Home</a>
+<a href="Book.jsp">Book Shuttle</a> 
+<a href="Logout.jsp">Log Out</a>
 <div class="division" align="center">
 <fieldset class="fieldset">
 <table border="1">
@@ -35,14 +38,16 @@ if (null == sname) {
 <td class='fonts'><%=bo.getDate() %></td>
 <td class='fonts'><%=bo.getAddress() %></td>
 <td class='fonts'><%=bo.getStatus()%></td>
-
+<%if(bo.getStatus().equals("booked")){ %>
+<td class='fonts'><input type="Submit" value="Cancel Booking"></td>
+<%} %>
 </tr>		        	
 		        <%} %>
 	        
 		        
 </table>
 </fieldset>
-
+<input type="hidden" name="action" value="cancel">
 </div>
 </form>
 </body>

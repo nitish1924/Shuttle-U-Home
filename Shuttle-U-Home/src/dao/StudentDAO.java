@@ -13,35 +13,36 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.eq;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 import bean.Booking;
+import bean.Employee;
 import bean.Student;
 
 public class StudentDAO {
 	private int id=5;
-	/*private String name;
-	private String address;
-	private String emailId;
-	private String phoneNo;
-	private String password;
-	private String gender;*/
 	public int createStudent(Student student){
-		/*name=student.getName();
-		address=student.getAddress();
-		emailId=student.getEmailId();
-		phoneNo=Long.toString(student.getPhoneNo());
-		password=student.getPassword();
-		gender=student.getGender();
-		System.out.println("Testing data received:"+name+address+gender+emailId);*/
 		
 		 try {
 				MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
 				MongoDatabase dbs=mongoclient.getDatabase("shuttle");
 				System.out.println("connected to db");
 				MongoCollection<Document> collection = dbs.getCollection("student");
+				
+				BasicDBObject query=new BasicDBObject();
+				query.put("emailId",student.getEmailId());
+				FindIterable<Document> cursor=collection.find(query);
+				MongoCursor<Document> it = cursor.iterator();
+				while(it.hasNext()){
+					System.out.println("inside iterator");
+					id=0;
+					break;
+							
+				}
+				if(id==5) {
 				Document dbo=new Document();
 				dbo.put("name",student.getName());
 				dbo.put("address",student.getAddress());
@@ -51,6 +52,10 @@ public class StudentDAO {
 				dbo.put("gender",student.getGender());
 				collection.insertOne(dbo);
 			    }
+				else {
+					System.out.println("user with "+student.getEmailId()+" already registered");
+				}
+		 }
 		 
 			    catch(Exception e) {
 			    	System.out.println(e);
@@ -95,6 +100,9 @@ public class StudentDAO {
 		
 		String sname="1234";
 		String address="";
+		String waitTime="";
+		String timestamp="";
+				
 		try {
 			MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
 			MongoDatabase dbs=mongoclient.getDatabase("shuttle");
@@ -112,12 +120,24 @@ public class StudentDAO {
 						
 			}
 			
+			MongoCollection<Document> collection1 = dbs.getCollection("WaitingTime");
+			FindIterable<Document> cursor1=collection1.find();
+			MongoCursor<Document> it1 = cursor1.iterator();
+			while(it1.hasNext()) {
+				Document element=it1.next();
+				waitTime=element.getString("waitTime");
+				timestamp=element.getString("time");
+				
+				
+						
+			}
+			
 
 		}
 		catch(Exception e) {
 			System.out.println(e);
 		}
-		String[] data= {sname,address};
+		String[] data= {sname,address,waitTime,timestamp};
 		return data;
 	}
 	public void createBooking(Booking book) {
@@ -238,6 +258,68 @@ public class StudentDAO {
 			System.out.println(e);
 		}
 		return book;
+	}
+	public void cancel(String email) {
+		MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
+		MongoDatabase dbs=mongoclient.getDatabase("shuttle");
+		MongoCollection<Document> collection = dbs.getCollection("booking");
+		BasicDBObject query=new BasicDBObject();
+		query.put("emailId",email);
+		query.put("status","booked");
+		collection.updateOne(query, new Document("$set", new Document("status", "cancelled")));
+	}
+	public int createEmployee(Employee emp) {
+		
+		MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
+		MongoDatabase dbs=mongoclient.getDatabase("shuttle");
+		System.out.println("connected to db");
+		MongoCollection<Document> collection = dbs.getCollection("driver");
+		
+		BasicDBObject query=new BasicDBObject();
+		query.put("email",emp.getEmailId());
+		FindIterable<Document> cursor=collection.find(query);
+		MongoCursor<Document> it = cursor.iterator();
+		while(it.hasNext()){
+			System.out.println("inside iterator");
+			id=0;
+			break;
+					
+		}
+		if(id==5) {
+		Document dbo=new Document();
+		dbo.put("name",emp.getName());
+		
+		dbo.put("email",emp.getEmailId());
+		
+		dbo.put("password",emp.getPassword());
+		dbo.put("phoneNo",Long.toString(emp.getPhoneNo()));
+	
+		collection.insertOne(dbo);
+	    }
+		else {
+			System.out.println("user with "+emp.getEmailId()+" already registered");
+		}
+ 
+ 
+	  
+return id;
+
+
+	}
+	
+	
+	public void addTripTime(int triptime) {
+		String t=Integer.toString(triptime);
+		DateFormat df1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+		String sysdate1= df1.format(new java.util.Date());
+		MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
+		MongoDatabase dbs=mongoclient.getDatabase("shuttle");
+		System.out.println("connected to db");
+		MongoCollection<Document> collection = dbs.getCollection("WaitingTime");
+		collection.updateOne(eq("name", "admin"), new Document("$set", new Document("waitTime", t)));
+		collection.updateOne(eq("name", "admin"), new Document("$set", new Document("time", sysdate1)));
+		
+		
 	}
 
 }

@@ -9,7 +9,7 @@
 <body class="body">
 <%@ page import="bean.Booking" %>
 <%@ page import="java.util.ArrayList"%>
-<form name='triplist' method="post" action="DriverHome.jsp">
+<form name='triplist' method="post" action="Road.jsp">
 <%
 String sname = (String) session.getAttribute("name");
 if (null == sname) {
@@ -36,12 +36,12 @@ if (null == sname) {
 </tr>		        	
 		        <%} %>
 <tr>
-<td><input type="Submit" value="End Trip"></input></td>
+<td><input type="Submit" value="start map"></input></td>
 </tr>		        
 		        
 </table>
 </fieldset>
-<input type='hidden' name='action' value='cancelRoom'>
+
 </div>
 </form>
 </body>

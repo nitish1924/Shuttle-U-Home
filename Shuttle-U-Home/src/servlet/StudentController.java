@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bean.Booking;
+import bean.Employee;
 import bean.Student;
 import service.EmailOTP;
 import service.Shuttle;
@@ -66,19 +67,57 @@ public class StudentController extends HttpServlet {
 				e.printStackTrace();
 			}
 			if(studentID==0){
-				request.getRequestDispatcher("RegFailure.jsp").forward(request, response);
+				response.setContentType("text/html"); 
+				PrintWriter pw=response.getWriter();
+						pw.print("Email id already registered!!Register using different email id");
+			     request.getRequestDispatcher("Registration.jsp").include(request, response); 
 			}
 			else{
-				request.setAttribute("studentID", studentID);
-				request.getRequestDispatcher("RegSuccess.jsp").include(request, response);
+				response.setContentType("text/html"); 
+				PrintWriter pw=response.getWriter();
+						pw.print("Registered Successfully!Please Login");
+			     request.getRequestDispatcher("Login.jsp").include(request, response); 
+		      }
+		 }  
+		if("addEmployee".equals(action))
+		{
+			Employee emp= new Employee();
+			
+			emp.setName(request.getParameter("empName"));
+		    emp.setEmailId(request.getParameter("eid"));
+			emp.setPhoneNo(Long.parseLong(request.getParameter("phone")));
+			emp.setPassword(request.getParameter("pwd"));
+			
+		
+			Shuttle shuttle= new Shuttle ();
+			int empID = 0;
+			try {
+				empID = shuttle.createEmployee(emp);
+				System.out.println(empID);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if(empID==0){
+				response.setContentType("text/html"); 
+				PrintWriter pw=response.getWriter();
+						pw.print("Email id already registered!!Register using different email id");
+			     request.getRequestDispatcher("EmployeeRegister.jsp").include(request, response); 
+			}
+			else{
+				response.setContentType("text/html"); 
+				PrintWriter pw=response.getWriter();
+						pw.print("Employee Registered Successfully!");
+			     request.getRequestDispatcher("AdminHome.jsp").include(request, response); 
 		      }
 		 }  
 		if("login".equals(action)) {
 			Shuttle s=new Shuttle();
-			String email=request.getParameter("eid");
-			String pwd=request.getParameter("pwd");
+			String email=request.getParameter("seid");
+			String pwd=request.getParameter("spwd");
 			String identity =request.getParameter("identity");
+			
 			if(identity.equals("Student")) {
+				
 			String name=s.login(email,pwd);
 			if(name.equals("1234")) {
 				System.out.println("authentication failed");
@@ -109,12 +148,20 @@ public class StudentController extends HttpServlet {
 					
 				}
 				else {
-					System.out.println("text authentication success");
+					if(email.equals("admin@syr.edu")) {
+						
+						session.setAttribute("email",email);
+						session.setAttribute("name", name);
+						
+						request.getRequestDispatcher("AdminHome.jsp").forward(request, response);
+					}
+					else {
 					
 					session.setAttribute("email",email);
 					session.setAttribute("name", name);
 					
 					request.getRequestDispatcher("DriverHome.jsp").forward(request, response); 
+					}
 				}
 			}
 		}
@@ -138,8 +185,14 @@ public class StudentController extends HttpServlet {
 			ArrayList<Booking> b=new ArrayList<Booking>();
 			String dname=(String) session.getAttribute("name");
 			b=s.createList(dname);
+			ArrayList<String> addresses = new ArrayList<String>();
+
+			for(Booking bo:b) {
+				addresses.add(bo.getAddress());
+			}
+			session.setAttribute("addresses", addresses);
 			session.setAttribute("b", b);
-			request.getRequestDispatcher("DriverTripList.jsp").forward(request, response); 
+		request.getRequestDispatcher("DriverTripList.jsp").forward(request, response); 
 			
 			
 		}
@@ -151,6 +204,15 @@ public class StudentController extends HttpServlet {
 			request.setAttribute("bl", bl);
 			request.getRequestDispatcher("viewbooklist.jsp").forward(request, response); 
 		}
+		if("cancel".equals(action)) {
+			String semail=(String) session.getAttribute("email");
+			Shuttle s=new Shuttle();
+			s.cancel(semail);
+			response.setContentType("text/html"); 
+			PrintWriter pw=response.getWriter();
+					pw.print("Cancellation Successful");
+		     request.getRequestDispatcher("Homepage.jsp").include(request, response);
+		}
 		if("loginotp".equals(action)) {
 			Shuttle s = new Shuttle();
 			String email = (String)session.getAttribute("email");
@@ -159,6 +221,8 @@ public class StudentController extends HttpServlet {
 			String[] data=s.loginOTP(email,otp);
 			String name=data[0];
 			String address=data[1];
+			String waitTime=data[2];
+			String timestamp=data[3];
 			if(name.equals("1234")) {
 				System.out.println("otp authentication failed");
 				response.setContentType("text/html"); 
@@ -172,6 +236,8 @@ public class StudentController extends HttpServlet {
 				session.setAttribute("email",email);
 				session.setAttribute("name",name);
 				session.setAttribute("address",address);
+				session.setAttribute("waitTime", waitTime);
+				session.setAttribute("timestamp", timestamp);
 				System.out.println("address:"+address);
 				request.getRequestDispatcher("Homepage.jsp").forward(request, response); 
 				

@@ -20,7 +20,7 @@ Welcome!Login successful! <%out.print(sname); %>
 <a href="Homepage.jsp">Home</a>
 <a href="Book.jsp">Book Shuttle</a> 
 <a href="Logout.jsp">Log Out</a>
-<input type="Submit" value="Submit">
+<input type="Submit" value="View Bookings">
 <input type="hidden" value="viewbooking" name="action">
 </body>
 </html>
