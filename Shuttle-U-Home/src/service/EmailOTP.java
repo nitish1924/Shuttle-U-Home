@@ -57,5 +57,10 @@ public class EmailOTP {
 		d.insertOTP(otp,TOemail);
 		 
 	   }
+	
+	/*public void createotp(String TOemail) {
+		StudentDAO d= new StudentDAO();
+		d.insertOTP("1",TOemail);
+	}*/
 }
 	

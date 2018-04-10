@@ -46,6 +46,12 @@ public int createEmployee(Employee emp) {
 	StudentDAO studentDAO=new StudentDAO();
 	return studentDAO. createEmployee(emp);
 }
+public ArrayList<Booking>  viewbookingsadmin() {
+	StudentDAO studentDAO=new StudentDAO();
+	return studentDAO.viewbookingsadmin();
+	
+	
+}
 	
 }
 

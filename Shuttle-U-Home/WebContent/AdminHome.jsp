@@ -7,8 +7,10 @@
 <title>Admin Home</title>
 </head>
 <body>
+<form name='viewBookings' method="post" action="StudentController"> 
 <a href="EmployeeRegister.jsp">Register Driver</a>
-<a href="SeeUpcomingBookings.jsp">Register Driver</a>
-<a href="SeeBookings.jsp">Register Driver</a>
+<input type="Submit" value="View Bookings">
+<input type="hidden" value="adminview" name="action">
+</form>
 </body>
 </html>

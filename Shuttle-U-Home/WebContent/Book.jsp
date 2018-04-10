@@ -23,6 +23,8 @@ if (null == sname) {
    }
 
 
+
+
 int time=Integer.parseInt((String)session.getAttribute("waitTime"));
 String Timestamp=(String)session.getAttribute("timestamp");
 long diff;
@@ -31,10 +33,30 @@ String sysdate1= df1.format(new java.util.Date());
 Date d1=df1.parse(sysdate1);
 Date d2=df1.parse(Timestamp);
 diff=Math.abs(d1.getTime()-d2.getTime());
+
 if(diff<0){
 	diff=0;
 }
+
+
 int minute=(int)(diff/60000);
+if (minute<0){
+	minute=0;
+}
+
+
+int count=Integer.parseInt((String)session.getAttribute("count"));
+int count1=count/9;
+count1++;
+
+int waitTime=(time*count1)-minute;
+if(waitTime<0){
+	waitTime=0;
+}
+
+System.out.println("count1:"+count1);
+System.out.println("min:"+minute);
+System.out.println("wait in db:"+time);
 %>
 <form name="book" action="StudentController" method=post>
 <a href="Homepage.jsp">Home</a>
@@ -53,8 +75,8 @@ int minute=(int)(diff/60000);
 	<tr><td class="fonts">Date</td>
 	<td><input type='text' name='date' id='date' value="<%= sysdate%>" readonly></td>
 	</tr>
-	<tr><td class="fonts">Date</td>
-	<td><input type='text' name='time' id='time' value="<%= minute%>" readonly></td>
+	<tr><td class="fonts">Waiting time(in minutes)</td>
+	<td><input type='text' name='time' id='time' value="<%= waitTime%>" readonly></td>
 	</tr>
 	<tr><td class="fonts">Drop Address</td>
 	<td><input type='text' name='address' id='address' value="<%= session.getAttribute("address")%>" ></td>

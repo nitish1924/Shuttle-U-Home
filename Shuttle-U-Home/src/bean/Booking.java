@@ -7,6 +7,8 @@ public class Booking {
 	private String email;
 	private String date;
 	private String status;
+	private String driver;
+	
 	
 	public String getName() {
 		return name;
@@ -31,6 +33,13 @@ public class Booking {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getDriver() {
+		return driver;
+	}
+	public void setDriver(String driver) {
+		this.driver = driver;
 	}
 	public void setStatus(String status) {
 		this.status=status;

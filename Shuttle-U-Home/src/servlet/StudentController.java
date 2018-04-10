@@ -52,7 +52,7 @@ public class StudentController extends HttpServlet {
 			
 			student.setName(request.getParameter("studentName"));
 			student.setGender(request.getParameter("sex"));
-			student.setAddress(request.getParameter("add"));
+			student.setAddress(request.getParameter("add")+" Syracuse");
 			student.setEmailId(request.getParameter("eid"));
 			student.setPhoneNo(Long.parseLong(request.getParameter("phone")));
 			student.setPassword(request.getParameter("pwd"));
@@ -213,6 +213,18 @@ public class StudentController extends HttpServlet {
 					pw.print("Cancellation Successful");
 		     request.getRequestDispatcher("Homepage.jsp").include(request, response);
 		}
+		
+		if("adminview".equals(action)) {
+			
+		Shuttle s = new Shuttle();
+		ArrayList<Booking> newbook = new ArrayList<Booking>();
+		newbook = s.viewbookingsadmin();
+		request.setAttribute("newbook", newbook);
+		request.getRequestDispatcher("Allbookings.jsp").forward(request, response); 
+	
+		
+			
+		}
 		if("loginotp".equals(action)) {
 			Shuttle s = new Shuttle();
 			String email = (String)session.getAttribute("email");
@@ -223,6 +235,7 @@ public class StudentController extends HttpServlet {
 			String address=data[1];
 			String waitTime=data[2];
 			String timestamp=data[3];
+			String count=data[4];
 			if(name.equals("1234")) {
 				System.out.println("otp authentication failed");
 				response.setContentType("text/html"); 
@@ -238,6 +251,7 @@ public class StudentController extends HttpServlet {
 				session.setAttribute("address",address);
 				session.setAttribute("waitTime", waitTime);
 				session.setAttribute("timestamp", timestamp);
+				session.setAttribute("count", count);
 				System.out.println("address:"+address);
 				request.getRequestDispatcher("Homepage.jsp").forward(request, response); 
 				

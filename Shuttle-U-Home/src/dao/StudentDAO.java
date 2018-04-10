@@ -16,7 +16,6 @@ import static com.mongodb.client.model.Filters.eq;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import bean.Booking;
 import bean.Employee;
@@ -102,7 +101,8 @@ public class StudentDAO {
 		String address="";
 		String waitTime="";
 		String timestamp="";
-				
+		int a=0;
+		String count="";		
 		try {
 			MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
 			MongoDatabase dbs=mongoclient.getDatabase("shuttle");
@@ -131,13 +131,27 @@ public class StudentDAO {
 				
 						
 			}
+			MongoCollection<Document> collection2 = dbs.getCollection("booking");
+			BasicDBObject query1=new BasicDBObject();
+			query1.put("status","booked");
+			FindIterable<Document> cursor2=collection2.find(query1);
+			MongoCursor<Document> it2 = cursor2.iterator();
+			while(it2.hasNext()) {
+				Document element=it2.next();
+				System.out.println(element.getString("status"));
+				a++;
+				
+				System.out.println(a);
+						
+			}
 			
-
+			count=Integer.toString(a);
+System.out.println("entries:"+count);
 		}
 		catch(Exception e) {
 			System.out.println(e);
 		}
-		String[] data= {sname,address,waitTime,timestamp};
+		String[] data= {sname,address,waitTime,timestamp,count};
 		return data;
 	}
 	public void createBooking(Booking book) {
@@ -320,6 +334,39 @@ return id;
 		collection.updateOne(eq("name", "admin"), new Document("$set", new Document("time", sysdate1)));
 		
 		
+	}
+	public ArrayList<Booking> viewbookingsadmin() {
+		java.text.DateFormat df = new java.text.SimpleDateFormat("MM/dd/yyyy");
+		String sysdate= df.format(new java.util.Date());
+		MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
+		MongoDatabase dbs=mongoclient.getDatabase("shuttle");
+		System.out.println("connected to db");
+		MongoCollection<Document> collection = dbs.getCollection("booking");
+		ArrayList<Booking> book=new ArrayList<Booking>();
+		BasicDBObject query=new BasicDBObject();
+		query.put("date",sysdate);
+		FindIterable<Document> cursor=collection.find(query);
+		MongoCursor<Document> it = cursor.iterator();
+		while(it.hasNext()){
+			Booking newbooking = new Booking();
+			Document element=it.next();
+			String name = element.getString("name");
+			String address = element.getString("address");
+			String emailId = element.getString("emailId");
+			String status = element.getString("status");
+			String date = element.getString("date");
+			String driver = element.getString("driver");
+					newbooking.setName(name);
+					newbooking.setAddress(address);
+					newbooking.setEmail(emailId);
+					newbooking.setStatus(status);
+					newbooking.setDate(date);
+					newbooking.setDriver(driver);
+					book.add(newbooking);
+					
+		}
+		
+		return book;
 	}
 
 }
