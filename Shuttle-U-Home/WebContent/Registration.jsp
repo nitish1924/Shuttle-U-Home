@@ -5,18 +5,22 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Registration page</title>
+<link href="css/registration.css" rel="stylesheet" type="text/css">
+<link href="css/styles.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="js/FormValidation.js"></script>
 </head>
 <body class="body">
-<form name='registration' method="post" action="StudentController">
+<div id="topBanner" class="regbanner">
+        <h1 align="center" style="color:white">Syracuse University</h1>
+            <h2 align="center" style="color: white">Shuttle-U-Home Online-Student Registration</h2>   
+</div>
+<form name='registration' method="post" action="StudentController" style="padding-top: 50px">
 <div class="division" align="center">
-<fieldset class="fieldset">
-<legend align="top"> <font color="blue">Register Student</font></legend>
-
-<table align="center">
+<table class="register">
+<caption class="tabletitle">Sign Up here.</caption>
 <tr>
 <td class="fonts">Name:</td>
-<td class="fonts"><input type="text" name="studentName" id="studentName" class="text"></input></td></tr>
+<td><input type="text" name="studentName" id="studentName" class="text"></input></td></tr>
 <tr>
 <td class="fonts">Gender:</td>
 <td><input type="radio" value="Male" id="Male" name="sex" class="text">Male
@@ -35,16 +39,14 @@
 <td><textarea name="add" id="add" class="text"></textarea></td>
 </tr>
 <tr>
-<td class="fonts">Phone No.:</td>
+<td class="fonts">Phone No:</td>
 <td><input type="text" name="phone" id="phone" class="text"></input></td></tr>
 <tr>
 <td>&nbsp;<input type="hidden" value="addStudent" name="action"></td>
-<td><input type="Submit" value="Submit" onclick="return Validations()"></input></td>
-<td><input type="reset" value="Reset"/></td>
+<td><input class="form-button" type="Submit" value="Submit" onclick="return Validations()"></input>
+<input class="form-button" type="reset" value="Reset"/></td>
 </tr>
 </table>
-
-</fieldset>
 </div>
 </form>
 </body>

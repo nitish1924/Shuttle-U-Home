@@ -333,6 +333,13 @@ return id;
 		collection.updateOne(eq("name", "admin"), new Document("$set", new Document("waitTime", t)));
 		collection.updateOne(eq("name", "admin"), new Document("$set", new Document("time", sysdate1)));
 		
+		//chatbot
+		MongoClient mongoclient1 = new MongoClient( "54.245.204.206" , 27017 );   
+		MongoDatabase dbs1=mongoclient1.getDatabase("SUShuttle");
+		System.out.println("connected to cloud db");
+		MongoCollection<Document> collection1 = dbs1.getCollection("WaitingTime");
+		collection1.updateOne(eq("name", "admin"), new Document("$set", new Document("waitTime", t)));
+		collection1.updateOne(eq("name", "admin"), new Document("$set", new Document("time", sysdate1)));
 		
 	}
 	public ArrayList<Booking> viewbookingsadmin() {

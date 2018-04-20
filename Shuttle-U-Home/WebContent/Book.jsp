@@ -23,10 +23,11 @@ if (null == sname) {
    }
 
 
-
-
+int waitTime=0;
+try{
 int time=Integer.parseInt((String)session.getAttribute("waitTime"));
 String Timestamp=(String)session.getAttribute("timestamp");
+
 long diff;
 java.text.DateFormat df1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 String sysdate1= df1.format(new java.util.Date());
@@ -49,7 +50,7 @@ int count=Integer.parseInt((String)session.getAttribute("count"));
 int count1=count/9;
 count1++;
 
-int waitTime=(time*count1)-minute;
+waitTime=(time*count1)-minute;
 if(waitTime<0){
 	waitTime=0;
 }
@@ -57,14 +58,14 @@ if(waitTime<0){
 System.out.println("count1:"+count1);
 System.out.println("min:"+minute);
 System.out.println("wait in db:"+time);
+}
+catch(Exception e){
+	System.out.println(e);
+}
+
 %>
 <form name="book" action="StudentController" method=post>
-<a href="Homepage.jsp">Home</a>
-<a href="Book.jsp">Book Shuttle</a> 
-<a href="Logout.jsp">Log Out</a>
 <div class="division" align="center">
-<fieldset class="fieldset">
-<legend align="top" size="20"> <font color="blue">Book Shuttle</font></legend>
 	<table align="center">
 	<tr><td class="fonts">Name</td>
 	<td><input type='text' name='name' id='name' value="<%= session.getAttribute("name")%>" readonly></td>
@@ -86,7 +87,6 @@ System.out.println("wait in db:"+time);
 	<td><input type="hidden" name="action" value="book"></td>
 	</tr>
 	</table>
-	</fieldset>
 </div>
 </form>
 

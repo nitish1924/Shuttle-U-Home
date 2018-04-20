@@ -13,7 +13,7 @@ import dao.StudentDAO;
 
 
 public class EmailOTP {
-	public void createotp(String TOemail)  {  
+	/*public void createotp(String TOemail)  {  
 		final String username = "shuttleuhomesu@gmail.com";
 		final String password = "shuttleuhome";
         String otp="";
@@ -56,11 +56,11 @@ public class EmailOTP {
 		StudentDAO d= new StudentDAO();
 		d.insertOTP(otp,TOemail);
 		 
-	   }
+	   }*/
 	
-	/*public void createotp(String TOemail) {
+	public void createotp(String TOemail) {
 		StudentDAO d= new StudentDAO();
 		d.insertOTP("1",TOemail);
-	}*/
+	}
 }
 	

@@ -19,9 +19,7 @@ if (null == sname) {
    rd.forward(request, response);
 }
 %>
-<a href="Homepage.jsp">Home</a>
-<a href="Book.jsp">Book Shuttle</a> 
-<a href="Logout.jsp">Log Out</a>
+
 <div class="division" align="center">
 <fieldset class="fieldset">
 <table border="1">

@@ -18,31 +18,41 @@ if (null == sname) {
    rd.forward(request, response);
 }
 %>
-<div class="division" align="center">
-<fieldset class="fieldset">
-<table border="1">
+
+<%ArrayList<Booking> b=new ArrayList<Booking>();%>
+<%b=(ArrayList<Booking>) session.getAttribute("b");%>
+		        <% 
+		        if(b.isEmpty()){%>
+		        <h2 align="center"> No Bookings Available at the moment.</h2>
+		        	
+		       <%}
+		        else
+		        	{for(Booking bo:b){%>
+		        	<div class="division" align="center">
+
+<table>
 <tr>
 <td class='fonts'>Booking id</td>
 <td class='fonts'>Email id</td>
 <td class='fonts'>Drop Address</td>
 </tr>
-<%ArrayList<Booking> b=new ArrayList<Booking>();%>
-<%b=(ArrayList<Booking>) session.getAttribute("b");%>
-		        <% for(Booking bo:b){%>
 <tr>
 <td class='fonts'><%=bo.getName() %></td>
 <td class='fonts'><%=bo.getEmail() %></td>
 <td class='fonts'><%=bo.getAddress()%></td>
-</tr>		        	
-		        <%} %>
-<tr>
+</tr>	
+
+	        	
+		        <%}%>
+		        <tr>
 <td><input type="Submit" value="start map"></input></td>
 </tr>		        
 		        
 </table>
-</fieldset>
 
-</div>
+
+</div><%} %>
+		        
 </form>
 </body>
 </html>
