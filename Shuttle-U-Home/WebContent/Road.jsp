@@ -1,3 +1,17 @@
+<!--/////////////////////////////////////////////////////////////////////////////
+//  Road.jsp-To load google maps and plotting of drop addresses                //
+//  version 2.0  (Date - 03/26/2018)                                           //
+//  Language:    HTML5,Java, CSS3                                              //
+//  Platform:    Windows 10 Pro                                                //
+//  Application: Shuttle U Home CSE686 - Internet Programming                  //
+//  Author:      Nitish Kumar, Syracuse University                             //
+/////////////////////////////////////////////////////////////////////////////////
+/*
+ *   Purpose
+ *   ------------------
+ *   To load google maps and plotting of drop addresses
+ *   
+ */-->
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -51,7 +65,7 @@
     
     <%@ page import="java.util.ArrayList"%>
 <%ArrayList<String> b=new ArrayList<String>();
-b=(ArrayList<String>)session.getAttribute("addresses");%>
+b=(ArrayList<String>)session.getAttribute("addresses"); // drop addresses are fetched%>
 
 <%for(String a:b){%>
 	

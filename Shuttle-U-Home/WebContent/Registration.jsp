@@ -1,3 +1,16 @@
+<!--/////////////////////////////////////////////////////////////////////////////
+// Registartion.jsp-Registration form for Student                              //
+//  version 2.0  (Date - 03/18/2018)                                           //
+//  Language:    HTML5,Java                                                    //
+//  Platform:    Windows 10 Pro                                                //
+//  Application: Shuttle U Home CSE686 - Internet Programming                  //
+//  Author:      Nitish Kumar, Syracuse University                             //
+/////////////////////////////////////////////////////////////////////////////////
+/*
+ *   Purpose
+ *   ------------------
+ *   Registration form forstudent is displayed 
+ */-->
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -19,27 +32,27 @@
 <table class="register">
 <caption class="tabletitle">Sign Up here.</caption>
 <tr>
-<td class="fonts">Name:</td>
+<td class="label">Name:</td>
 <td><input type="text" name="studentName" id="studentName" class="text"></input></td></tr>
 <tr>
-<td class="fonts">Gender:</td>
+<td class="label">Gender:</td>
 <td><input type="radio" value="Male" id="Male" name="sex" class="text">Male
 <input type="radio" value="Female" id="Female" name="sex" class="text">Female</td></tr>
 <tr>
-<td class="fonts">Email id:</td>
+<td class="label">Email id:</td>
 <td><input type="text" name="eid" id="eid" class="text"></input></td></tr>
 <tr>
-<td class="fonts">Password:</td>
+<td class="label">Password:</td>
 <td><input type="password" name="pwd" id="pwd" class="text"></input></td></tr>
 <tr>
-<td class="fonts">Confirm Password:</td>
+<td class="label">Confirm Password:</td>
 <td><input type="password" name="cpwd" id="cpwd" class="text"></input></td></tr>
 <tr>
-<td class="fonts">Address:</td>
+<td class="label">Address:</td>
 <td><textarea name="add" id="add" class="text"></textarea></td>
 </tr>
 <tr>
-<td class="fonts">Phone No:</td>
+<td class="label">Phone No:</td>
 <td><input type="text" name="phone" id="phone" class="text"></input></td></tr>
 <tr>
 <td>&nbsp;<input type="hidden" value="addStudent" name="action"></td>

@@ -1,3 +1,17 @@
+<!--/////////////////////////////////////////////////////////////////////////////
+// EmployeeRegister.jsp-Registration form for employee                         //
+//  version 2.0  (Date - 03/26/2018)                                           //
+//  Language:    HTML5,Java                                                    //
+//  Platform:    Windows 10 Pro                                                //
+//  Application: Shuttle U Home CSE686 - Internet Programming                  //
+//  Author:      Nitish Kumar, Syracuse University                             //
+/////////////////////////////////////////////////////////////////////////////////
+/*
+ *   Purpose
+ *   ------------------
+ *   Registration form for employee is displayed which can only be accessed by admin
+ *   
+ */-->
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -9,10 +23,12 @@
 <link href="css/styles.css" rel="stylesheet" type="text/css">
 </head>
 <body class="body">
-<div id="topBanner" class="regbanner">
-        <h1 align="center" style="color:white">Syracuse University</h1>
-            <h2 align="center" style="color: white">Shuttle-U-Home Online-Employee Registration</h2>   
-</div>
+<%String sname = (String) session.getAttribute("name");
+			if (null == sname) { // check if session is null
+				request.setAttribute("Error", "Session has ended.  Please login.");
+				RequestDispatcher rd = request.getRequestDispatcher("Login.jsp");//if session is null redirect to login page
+				rd.forward(request, response);
+			}%>
 <form name='Empregistration' method="post" action="StudentController" style="padding-top: 50px">
 <div class="division" align="center">
 <table align="center" class="register">

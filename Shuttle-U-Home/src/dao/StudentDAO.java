@@ -1,6 +1,20 @@
+/////////////////////////////////////////////////////////////////////////////
+//  StudentDAO.java - This file handles all database CURD operation        //
+//  version 5.0  (Date - 04/16/2018)                                       //
+//  Language:    Java                                                      //
+//  Platform:    Windows 10 Pro                                            //
+//  Application: Shuttle U Home CSE686 - Internet Programming              //
+//  Author:      Aviek Singh, Syracuse University                         //
+/////////////////////////////////////////////////////////////////////////////
+/*
+ *   Purpose
+ *   ------------------
+ *   This Database access level file interacts between service layer and MongoDB.
+ *   This file creates connection with MongoDB and perform CURD(create, update, retrieve & delete) operation as instructed.
+ *   
+ */
+
 package dao;
-
-
 
 import org.bson.Document;
 
@@ -23,59 +37,59 @@ import bean.Student;
 
 public class StudentDAO {
 	private int id=5;
-	public int createStudent(Student student){
+	public int createStudent(Student student){   // student registartion / creating a student id
 		
 		 try {
-				MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
-				MongoDatabase dbs=mongoclient.getDatabase("shuttle");
+				MongoClient mongoclient = new MongoClient( "localhost" , 27017 );    // connection to mongo db
+				MongoDatabase dbs=mongoclient.getDatabase("shuttle"); // accesing shuttle database
 				System.out.println("connected to db");
-				MongoCollection<Document> collection = dbs.getCollection("student");
+				MongoCollection<Document> collection = dbs.getCollection("student"); // Accesing student collection
 				
-				BasicDBObject query=new BasicDBObject();
-				query.put("emailId",student.getEmailId());
-				FindIterable<Document> cursor=collection.find(query);
-				MongoCursor<Document> it = cursor.iterator();
+				BasicDBObject query=new BasicDBObject();    
+				query.put("emailId",student.getEmailId()); // creating a query with the received email id to check if email already registered
+				FindIterable<Document> cursor=collection.find(query); // finding the email id in the collection
+				MongoCursor<Document> it = cursor.iterator(); // storing the result in cursorof mongodb
 				while(it.hasNext()){
 					System.out.println("inside iterator");
-					id=0;
+					id=0; // if the email id exist then update id to 0
 					break;
 							
 				}
-				if(id==5) {
-				Document dbo=new Document();
+				if(id==5) {  // if email id does not already(id not equal to 0) exist in db then insert the student info in database.
+				Document dbo=new Document(); // create a document with below info received from registration form
 				dbo.put("name",student.getName());
 				dbo.put("address",student.getAddress());
 				dbo.put("emailId",student.getEmailId());
 				dbo.put("phoneNo",Long.toString(student.getPhoneNo()));
 				dbo.put("password",student.getPassword());
 				dbo.put("gender",student.getGender());
-				collection.insertOne(dbo);
+				collection.insertOne(dbo); // insert the created document for new student in student collection
 			    }
 				else {
-					System.out.println("user with "+student.getEmailId()+" already registered");
+					System.out.println("user with "+student.getEmailId()+" already registered"); // print if student already registered
 				}
 		 }
 		 
 			    catch(Exception e) {
 			    	System.out.println(e);
 			    }
-		return id;
+		return id; 
 		
 	}
-	public String login(String emailId, String password) {
+	public String login(String emailId, String password) {  // login authentication for student
 		String sname="1234";
 		try {
 			MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
 			MongoDatabase dbs=mongoclient.getDatabase("shuttle");
-			MongoCollection<Document> collection = dbs.getCollection("student");
+			MongoCollection<Document> collection = dbs.getCollection("student"); // accesing student collection
 			BasicDBObject query=new BasicDBObject();
-			query.put("emailId",emailId);
+			query.put("emailId",emailId);     //updating query with received email id and password combination
 			query.put("password",password);
 			FindIterable<Document> cursor=collection.find(query);
 			MongoCursor<Document> it = cursor.iterator();
-			while(it.hasNext()) {
+			while(it.hasNext()) { // checking every document in student collection for email and password collection
 				Document element=it.next();
-				sname=element.getString("name");
+				sname=element.getString("name"); // if credential combo exist in db fetch the name of student
 				System.out.println(sname);
 						
 			}
@@ -86,16 +100,16 @@ public class StudentDAO {
 			System.out.println(e);
 		}
 		
-		return sname;
+		return sname;  // return the name of student who tried login
 	}
-	public void insertOTP(String otp, String email) {
+	public void insertOTP(String otp, String email) {  // when text authentication completed otp is generated by EMailotp.java and inserted in db
 		MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
 		MongoDatabase dbs=mongoclient.getDatabase("shuttle");
 		MongoCollection<Document> collection = dbs.getCollection("student");
-		collection.updateOne(eq("emailId", email), new Document("$set", new Document("otp", otp)));
+		collection.updateOne(eq("emailId", email), new Document("$set", new Document("otp", otp))); // updating new otp for authentication in student collection.
 		
 	}
-	public String[] loginOTP(String email,String otp) {
+	public String[] loginOTP(String email,String otp) { // authenticating the otp entered by student 
 		
 		String sname="1234";
 		String address="";
@@ -109,10 +123,10 @@ public class StudentDAO {
 			MongoCollection<Document> collection = dbs.getCollection("student");
 			BasicDBObject query=new BasicDBObject();
 			query.put("emailId",email);
-			query.put("otp",otp);
+			query.put("otp",otp); // otp is entered as query with email id fo student
 			FindIterable<Document> cursor=collection.find(query);
 			MongoCursor<Document> it = cursor.iterator();
-			while(it.hasNext()) {
+			while(it.hasNext()) { // checking the email id and otp combo in db
 				Document element=it.next();
 				sname=element.getString("name");
 				address=element.getString("address");
@@ -120,17 +134,18 @@ public class StudentDAO {
 						
 			}
 			
-			MongoCollection<Document> collection1 = dbs.getCollection("WaitingTime");
+			MongoCollection<Document> collection1 = dbs.getCollection("WaitingTime");// accesing waiting time db
 			FindIterable<Document> cursor1=collection1.find();
 			MongoCursor<Document> it1 = cursor1.iterator();
 			while(it1.hasNext()) {
 				Document element=it1.next();
-				waitTime=element.getString("waitTime");
-				timestamp=element.getString("time");
+				waitTime=element.getString("waitTime"); // waiting time and the time at which entry is made is fetched
+				timestamp=element.getString("time");// so that the correct waiting time is provided to student based on elapsed time since last entry in waitingtime collection
 				
 				
 						
 			}
+			// below we are checking total number of booked entries in db so that correct waiting time can be calculated for every student as only 9 students can be dropped home at a time by shuttle.
 			MongoCollection<Document> collection2 = dbs.getCollection("booking");
 			BasicDBObject query1=new BasicDBObject();
 			query1.put("status","booked");
@@ -139,7 +154,7 @@ public class StudentDAO {
 			while(it2.hasNext()) {
 				Document element=it2.next();
 				System.out.println(element.getString("status"));
-				a++;
+				a++; // counting total number of booked entries for shuttle.
 				
 				System.out.println(a);
 						
@@ -151,10 +166,12 @@ System.out.println("entries:"+count);
 		catch(Exception e) {
 			System.out.println(e);
 		}
-		String[] data= {sname,address,waitTime,timestamp,count};
-		return data;
+		String[] data= {sname,address,waitTime,timestamp,count}; 
+		return data; // returning strtudent with his name address, waitime & timestamp // waitime logic is calculated on book.jsp page
 	}
 	public void createBooking(Booking book) {
+		
+        // booking shuttle for student with the received info from book.jsp page
 		try {
 			MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
 			MongoDatabase dbs=mongoclient.getDatabase("shuttle");
@@ -166,7 +183,7 @@ System.out.println("entries:"+count);
 			dbo.put("emailId",book.getEmail());
 			dbo.put("status","booked");
 			dbo.put("date",book.getDate());
-			collection.insertOne(dbo);
+			collection.insertOne(dbo); // inserting booking details in booking collection of mongodb
 		    }
 	 
 		    catch(Exception e) {
@@ -176,7 +193,7 @@ System.out.println("entries:"+count);
 	}
 	public String driverLogin(String email, String password) {
 		
-		
+		// authenticating driver and admin login
 		String sname="1234";
 		try {
 			MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
@@ -189,7 +206,7 @@ System.out.println("entries:"+count);
 			MongoCursor<Document> it = cursor.iterator();
 			while(it.hasNext()){
 				Document element=it.next();
-				sname=element.getString("name");
+				sname=element.getString("name"); // checking driver collection if credential combo exist then updating his/her name.
 				System.out.println(sname);
 						
 			}
@@ -202,7 +219,8 @@ System.out.println("entries:"+count);
 		return sname;
 		
 	}
-	public ArrayList<Booking> createList(String dname) {
+	public ArrayList<Booking> createList(String dname) { 
+		// fetching the first 9 details from booking collection to create a trip for driver.
 		ArrayList<Booking> book=new ArrayList<Booking>();
 		try {
 			
@@ -215,14 +233,14 @@ System.out.println("entries:"+count);
 			MongoCollection<Document> collection = dbs.getCollection("booking");
 			BasicDBObject query=new BasicDBObject();
 			query.put("status","booked");
-			FindIterable<Document> a=collection.find(query).sort(new Document("_id",1)).limit(9);
+			FindIterable<Document> a=collection.find(query).sort(new Document("_id",1)).limit(9); // first 9 booked details are fetched 
 			MongoCursor<Document> it = a.iterator();
 			while(it.hasNext()){
 				Booking b=new Booking();
 				Document element=it.next();
-				sname=element.getString("name");
-				email=element.getString("emailId");
-				address=element.getString("address");
+				sname=element.getString("name"); // name of student
+				email=element.getString("emailId"); // email id of student
+				address=element.getString("address"); // drop address of student
 				b.setName(sname);
 				b.setAddress(address);
 				b.setEmail(email);
@@ -237,10 +255,12 @@ System.out.println("entries:"+count);
 		catch(Exception e) {
 			System.out.println(e);
 		}
-		return book;
+		return book;// returning the trip detail
 		
 	}
 	public ArrayList<Booking> viewbooklist(String email) {
+		
+		// student accesing his last five booking details
 		String date="";
 		String address="";
 		String status="";
@@ -252,7 +272,7 @@ System.out.println("entries:"+count);
 			BasicDBObject query=new BasicDBObject();
 			query.put("emailId",email);
 			
-			FindIterable<Document> a=collection.find(query).sort(new Document("_id",-1)).limit(5);
+			FindIterable<Document> a=collection.find(query).sort(new Document("_id",-1)).limit(5); // last five details are fetched and displayed to student
 			MongoCursor<Document> it = a.iterator();
 			while(it.hasNext()){
 				Document element=it.next();
@@ -274,16 +294,17 @@ System.out.println("entries:"+count);
 		return book;
 	}
 	public void cancel(String email) {
+		// cancellation of booked shuttle initiated by student
 		MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
 		MongoDatabase dbs=mongoclient.getDatabase("shuttle");
 		MongoCollection<Document> collection = dbs.getCollection("booking");
 		BasicDBObject query=new BasicDBObject();
 		query.put("emailId",email);
 		query.put("status","booked");
-		collection.updateOne(query, new Document("$set", new Document("status", "cancelled")));
+		collection.updateOne(query, new Document("$set", new Document("status", "cancelled"))); // updating the status in db as cancelled
 	}
 	public int createEmployee(Employee emp) {
-		
+		// driver registartion initiated by admin
 		MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
 		MongoDatabase dbs=mongoclient.getDatabase("shuttle");
 		System.out.println("connected to db");
@@ -293,13 +314,13 @@ System.out.println("entries:"+count);
 		query.put("email",emp.getEmailId());
 		FindIterable<Document> cursor=collection.find(query);
 		MongoCursor<Document> it = cursor.iterator();
-		while(it.hasNext()){
+		while(it.hasNext()){ // checking if driver already in db
 			System.out.println("inside iterator");
 			id=0;
 			break;
 					
 		}
-		if(id==5) {
+		if(id==5) { // if not already in db insert driver details in db
 		Document dbo=new Document();
 		dbo.put("name",emp.getName());
 		
@@ -323,6 +344,7 @@ return id;
 	
 	
 	public void addTripTime(int triptime) {
+		// updating the total trip time that would be taken for shuttle to complete his trip // sending the waiting time to online mongodb for chatbot
 		String t=Integer.toString(triptime);
 		DateFormat df1=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		String sysdate1= df1.format(new java.util.Date());
@@ -334,17 +356,18 @@ return id;
 		collection.updateOne(eq("name", "admin"), new Document("$set", new Document("time", sysdate1)));
 		
 		//chatbot
-		MongoClient mongoclient1 = new MongoClient( "54.245.204.206" , 27017 );   
+		MongoClient mongoclient1 = new MongoClient( "35.160.114.120" , 27017 );  // chatbot mongodb connection using ip address  
 		MongoDatabase dbs1=mongoclient1.getDatabase("SUShuttle");
 		System.out.println("connected to cloud db");
 		MongoCollection<Document> collection1 = dbs1.getCollection("WaitingTime");
-		collection1.updateOne(eq("name", "admin"), new Document("$set", new Document("waitTime", t)));
-		collection1.updateOne(eq("name", "admin"), new Document("$set", new Document("time", sysdate1)));
+		collection1.updateOne(eq("name", "admin"), new Document("$set", new Document("waitTime", t))); //waiting time inserted
+		collection1.updateOne(eq("name", "admin"), new Document("$set", new Document("time", sysdate1))); // current system time inserted for calculating elapsed time.
 		
 	}
 	public ArrayList<Booking> viewbookingsadmin() {
-		java.text.DateFormat df = new java.text.SimpleDateFormat("MM/dd/yyyy");
-		String sysdate= df.format(new java.util.Date());
+		//Admin fetching booking details of current date
+		java.text.DateFormat df = new java.text.SimpleDateFormat("MM/dd/yyyy"); 
+		String sysdate= df.format(new java.util.Date()); // current system date fetched
 		MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
 		MongoDatabase dbs=mongoclient.getDatabase("shuttle");
 		System.out.println("connected to db");
@@ -354,7 +377,7 @@ return id;
 		query.put("date",sysdate);
 		FindIterable<Document> cursor=collection.find(query);
 		MongoCursor<Document> it = cursor.iterator();
-		while(it.hasNext()){
+		while(it.hasNext()){ // fetching the booking details
 			Booking newbooking = new Booking();
 			Document element=it.next();
 			String name = element.getString("name");
@@ -373,7 +396,41 @@ return id;
 					
 		}
 		
-		return book;
+		return book; // returning booking list of current date from booking collection
+	}
+	public String forgotPassword(String email) {
+		// fetching the password of student who accessed forgot password form
+		String status="fail"; 
+		
+		MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
+		MongoDatabase dbs=mongoclient.getDatabase("shuttle");
+		System.out.println("connected to db");
+		MongoCollection<Document> collection = dbs.getCollection("student");
+		
+		BasicDBObject query=new BasicDBObject();
+		query.put("emailId",email); // accesing the password through the student email id
+		FindIterable<Document> cursor=collection.find(query);
+		MongoCursor<Document> it = cursor.iterator();
+		while(it.hasNext()){
+			System.out.println("inside iterator");
+			Document element=it.next();
+			status=element.getString("password"); // password fetched
+			break;
+					
+		}
+		
+		return status;// returning the password or fail in case of student doesnot exist
+	}
+	public void changePassword(String email, String pass) {
+		
+		// changing the student password if he submitted change password form
+		MongoClient mongoclient = new MongoClient( "localhost" , 27017 );   
+		MongoDatabase dbs=mongoclient.getDatabase("shuttle");
+		MongoCollection<Document> collection = dbs.getCollection("student"); //accessing student collection
+		BasicDBObject query=new BasicDBObject();
+		query.put("emailId",email);
+		collection.updateOne(query, new Document("$set", new Document("password", pass))); // updating the password of student for his email id.
+		
 	}
 
 }

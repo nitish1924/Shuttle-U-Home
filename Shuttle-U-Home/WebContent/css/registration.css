@@ -1,3 +1,18 @@
+/*///////////////////////////////////////////////////////////////////////////
+//  registartion.css-Css for styling the jsp pages                         //
+//  version 2.0  (Date - 04/15/2018)                                       //
+//  Language:    CSS3                                                      //
+//  Platform:    Windows 10 Pro                                            //
+//  Application: Shuttle U Home CSE686 - Internet Programming              //
+//  Author:      Mona, Syracuse University           //
+////////////////////////////////////////////////////////////////////////////*/
+/*
+ *   Purpose
+ *   ------------------
+ *   For creating beautiful UI css file is used for styling the jsp pages.
+ *   Style for each form is done by creating classes to each button and other fields then setting their layouts
+ */
+
 @charset "ISO-8859-1";
 .regbanner {
 	display: block;
@@ -6,8 +21,11 @@
 	padding-top: 20px;
 	background-color: #d44500;
 }
-.fonts{
+.labels{
 	font-weight: 600;
+}
+.fonts{
+	padding: 5px 5px 5px 5px;
 }
 .register{
 	border-radius:25px;
@@ -20,29 +38,39 @@
 }
 .tabletitle{
 	border-radius:25px;
-	font-size: 26px; 
+	font-size: 22px; 
 	background-color: #d44500;
 	align-content: center;
 	margin-bottom: 20px;
 	color: white;
-	padding-top: 10px; 
-	padding-bottom: 10px;
+	padding-top: 5px; 
+	padding-bottom: 5px;
+}
+.tablebook{
+	border-radius:25px;
+	font-size: 22px; 
+	background-color: #F0FFFF;
+	align-content: center;
+	margin-bottom: 20px;
+	color: black;
+	padding-top: 5px; 
+	padding-bottom: 5px;
 }
 .navbar {
     overflow: hidden;
-    background-color: #ffb997;
+    background-color: #d44500;   
     font-family: Arial, Helvetica, sans-serif;
 }
 
 .navbar a, .navbar input, .navbar input:focus{
     float: left;
     font-size: 16px;
-    color: black;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
     border:none;
     outline: 0;
+    color: white;
 }
 
 .dropdown {
@@ -62,7 +90,7 @@
 }
 
 .navbar a:hover, .dropdown:hover .dropbtn, input:hover {
-    background-color: #d44500;
+    background-color: #ffb997;
 }
 
 .dropdown-content {
@@ -90,26 +118,59 @@
 .dropdown:hover .dropdown-content  {
     display: block;
 }
+
+.adm{
+	text-decoration: none;
+	border:none;
+	background-color: #ffb997;
+	color:black;
+	padding: 5px 5px 5px 5px;
+	cursor: default;
+	font-size: 22px;
+	font-family: inherit;
+}
 #bot {
+
 			display:none;
+
 			position: absolute;
+
 			bottom: 20px;
+
 			right: 20px;
+
 		}
+
+
 
 		#button1 {
+
 		  background-color : #31B0D5;
+
 		  color: white;
+
 		  padding: 10px 20px;
+
 		  border-radius: 30px;
+
 		  border-color: #46b8da;
+
 		  height: 50px;
+
 		  width: 100px;
+
 		  font-size: 10px;
+
 		}
 
+
+
 		#myButton {
+
 		  position: fixed;
+
 		  bottom: 30px;
+
 		  right: 30px;
+
 		};

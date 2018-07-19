@@ -1,4 +1,19 @@
-//////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+//  Road3.js - Connects to the firebase database                           //
+//  version 3.0  (Date - 04/06/2018)                                       //
+//  Language:    JavaScript                                                //
+//  Platform:    Windows 10 Pro                                            //
+//  Application: Shuttle U Home CSE686 - Internet Programming              //
+//  Author:      Salim Zhulkharni, Syracuse University                     //
+/////////////////////////////////////////////////////////////////////////////
+
+/*
+ *   Purpose
+ *   ------------------
+ *   Connects to the firebase database
+ *   Retrieves the coordinates from the firebase database based on the latest trip id.
+ */
+
 var max_trip_count=1;
 var coordinates_keys;
 var loc_data;
@@ -7,7 +22,7 @@ var loc_data;
 //initiliaze the firebase database
 // set the authentication for firebase
 var config = {
-                apiKey: "AIzaSyCMBSNoFI1tUMW3rugVZmNDTyvwZoBbURQ",
+      apiKey: "AIzaSyCMBSNoFI1tUMW3rugVZmNDTyvwZoBbURQ",
       authDomain: "locationtracking-6a81b.firebaseapp.com",
       databaseURL: "https://locationtracking-6a81b.firebaseio.com",
       projectId: "locationtracking-6a81b",
@@ -63,7 +78,7 @@ function gotData(data){
  // End of function goData();
 
 
-// Start of function errData(); 
+// Start of function errData() in case of error; 
 function errData(err){
   console.log("Error !");
   console.log(err);
@@ -78,7 +93,7 @@ function errData(err){
 var key_count=0;
 var coordinates_limit = 5;
 
-//Start of getCoordinatesRefresh
+//gets the first 5 coordinates, each time the function is called
 function getCoordinatesRefresh(){
 
           var itr=0;
@@ -91,7 +106,9 @@ function getCoordinatesRefresh(){
 
                       if(itr != coordinates_limit){
                                 var k = coordinates_keys[key_count];
+                                // push the latitude
                                 latitude_coord.push(parseFloat(loc_data[k].latitude));
+                                // push the longitude
                                   longitude_coord.push(parseFloat(loc_data[k].longitude));
                                   key_count++;
                                   itr++;
